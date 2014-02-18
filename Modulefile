@@ -1,8 +1,8 @@
-name          'garethr-graphite'
+name          '3fs-graphite'
 version       '0.3.0'
-author        'garethr'
+author        '3fs (originally forked from garethr-graphite)'
 license       'Apache License, Version 2.0'
 summary       'Module to manage the Graphite monitoring tool'
-project_page  'https://github.com/garethr/garethr-graphite'
+project_page  'https://github.com/3fs/puppet-graphite'
 
-dependency    'footballradar/python', '0.x'
+dependency    'stankevich/python', '1.6.3'
