@@ -1,30 +1,39 @@
 class graphite::install {
 
   if $graphite::manage_python {
-    include python
-  } else {
-    ensure_packages(['python-pip'])
-  }
 
-  ensure_packages([
-    'python-ldap',
-    'python-cairo',
-    'python-django',
-    'python-twisted',
-    'python-django-tagging',
-    'python-simplejson',
-    'python-memcache',
-    'python-pysqlite2',
-    'python-support',
-  ])
+    ensure_packages([
+      'libldap2-dev',
+      'libsasl2-dev',
+      'libsqlite3-dev',
+      'libcairo2-dev',
+    ])
 
-  Package['python-pip'] -> Package <| provider == 'pip' and ensure != absent and ensure != purged |>
+    class { 'python':
+      version    => 'system',
+      pip        => true,
+      gunicorn   => true,
+      virtualenv => true,
+      dev        => true,
+    }
 
-  package { ['whisper', 'carbon', 'graphite-web']:
-    ensure   => installed,
-    provider => pip,
-    require  => Class['python'],
-  }
+    file { '/tmp/graphite-requirements.txt':
+      ensure => present,
+      source => 'puppet:///modules/graphite/requirements.txt',
+    }
+
+    python::virtualenv { '/opt/graphite':
+      ensure       => present,
+      requirements => '/tmp/graphite-requirements.txt',
+      require    => [
+                      File['/tmp/graphite-requirements.txt'],
+                      Package['libldap2-dev'],
+                      Package['libsasl2-dev'],
+                      Package['libsqlite3-dev'],
+                      Package['libcairo2-dev'],
+                    ],
+    }
+  } 
 
   file { '/var/log/carbon':
     ensure => directory,
