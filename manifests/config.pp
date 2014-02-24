@@ -30,7 +30,7 @@ class graphite::config {
   }
 
   exec { 'init-db':
-    command   => '/usr/bin/python manage.py syncdb --noinput',
+    command   => '/opt/graphite/bin/python manage.py syncdb --noinput',
     cwd       => '/opt/graphite/webapp/graphite',
     creates   => '/opt/graphite/storage/graphite.db',
     subscribe => File['/opt/graphite/storage'],
@@ -53,7 +53,7 @@ class graphite::config {
     ensure    => 'directory',
     owner     => 'www-data',
     mode      => '0775',
-    subscribe => Package['graphite-web'],
+    # subscribe => Package['graphite-web'],
   }
 
   file { '/opt/graphite/webapp/graphite/local_settings.py':
