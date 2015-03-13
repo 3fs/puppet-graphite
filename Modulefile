@@ -1,5 +1,5 @@
 name          '3fs-graphite'
-version       '0.3.0'
+version       '0.4.0'
 author        '3fs (originally forked from garethr-graphite)'
 license       'Apache License, Version 2.0'
 summary       'Module to manage the Graphite monitoring tool'
