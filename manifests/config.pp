@@ -14,6 +14,12 @@ class graphite::config {
     mode   => '0555',
   }
 
+  file { '/etc/init/graphite.conf':
+    ensure => present,
+    source => 'puppet:///modules/graphite/graphite.conf',
+    mode   => '0555',
+  }
+
   file { '/opt/graphite/conf/carbon.conf':
     ensure    => present,
     content   => template('graphite/carbon.conf'),
